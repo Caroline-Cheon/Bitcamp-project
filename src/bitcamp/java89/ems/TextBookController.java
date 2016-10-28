@@ -2,16 +2,40 @@ package bitcamp.java89.ems;
 import java.util.Scanner;
 
 public class TextBookController {
-  TextBook[] textBooks = new TextBook[100];
-  int length = 0;
-  Scanner keyScan;
+  // 아래 인스턴스 변수들은 외부에서 사용할 일이 없기 때문에
+  // private으로 접근을 제한한다.
+  private TextBook[] textBooks = new TextBook[100];
+  private int length = 0;
+  private Scanner keyScan;
 
 //기본 생성자가 없다. 따라서 이 클래스를 사용하려면 반드시 Scanner를 줘야 한다.
 // => 생성자에서 하는 일은 그 객체를 사용하기 전에 유효상태로 만드는 것이다.
   public TextBookController(Scanner keyScan) {
     this.keyScan = keyScan;
   }
-  public void doAdd() {
+
+  public void service() {
+    loop:
+    while(true) {
+       System.out.print("교재관리> ");
+      String command = keyScan.nextLine().toLowerCase();
+
+      switch (command) {
+        case "add": this.doAdd(); break;
+        case "list": this.doList(); break;
+        case "view": this.doView(); break;
+        case "update": this.doUpdate(); break;
+        case "delete": this.doDelete(); break;
+        case "main": break loop;
+        default :
+          System.out.println("지원하지 않는 명령입니다.");
+          break;
+      }
+    }
+  }
+  // 아래 doxx() 메서드들은 오직 service()에서만 호출하기 때문에
+  // private으로 접근을 제한한다.
+  private void doAdd() {
     while (length < this.textBooks.length) {
       TextBook textbook = new TextBook();
 
@@ -48,7 +72,7 @@ public class TextBookController {
     }
   }
 
-  public void doList() {
+  private void doList() {
     for (int i = 0; i < this.length; i++) {
       TextBook textbook = this.textBooks[i];
       System.out.printf("%s,%s,%s,%s,%s,%s,%d,%d\n",
@@ -63,7 +87,7 @@ public class TextBookController {
       System.out.println();
     }
   }
-  public void doView() {
+  private void doView() {
     System.out.println("책이름을 입력하세요");
     String userTitle = this.keyScan.nextLine().toLowerCase();
 
@@ -84,7 +108,7 @@ public class TextBookController {
       }
     }
   }
-  public void doDelete() {
+  private void doDelete() {
     System.out.println("삭제할 리스트의 책이름은? ");
     String userTitle = this.keyScan.nextLine().toLowerCase();
 
@@ -107,7 +131,7 @@ public class TextBookController {
     System.out.printf("%s 책이 없습니다.\n", userTitle);
   }
 
-  public void doUpdate() {
+  private void doUpdate() {
     System.out.print("변경할 책의 이름은? ");
     String userTitle = this.keyScan.nextLine().toLowerCase();
     TextBook textbook = new TextBook();
