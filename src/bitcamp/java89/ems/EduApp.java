@@ -10,7 +10,7 @@ public class EduApp {
     System.out.println("비트캠프 관리시스템에 오신 걸 환영합니다.");
     loop:
     while(true) {
-      System.out.println("명령하세요, (보기:'add','list','view','quit')");
+      System.out.println("명령하세요, (보기:'add','list','view','update','delete,''quit')");
       System.out.print("명령> ");
       String command = keyScan.nextLine().toLowerCase();
 
@@ -18,15 +18,13 @@ public class EduApp {
         case "add": textBookController.doAdd(); break;
         case "list": textBookController.doList(); break;
         case "view": textBookController.doView(); break;
+        case "update": textBookController.doUpdate(); break;
+        case "delete": textBookController.doDelete(); break;
         case "quit": System.out.println("굿바이"); break loop;
         default :
           System.out.println("지원하지 않는 명령입니다.");
           break;
       }
-
-      System.out.print("계속 명령하시겠습니까(y/n)?");
-      if(!keyScan.nextLine().toLowerCase().equals("y"))
-        break;
     }
   }
 }

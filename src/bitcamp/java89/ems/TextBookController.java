@@ -2,7 +2,7 @@ package bitcamp.java89.ems;
 import java.util.Scanner;
 
 public class TextBookController {
-  TextBook[] textbooks = new TextBook[100];
+  TextBook[] textBooks = new TextBook[100];
   int length = 0;
   Scanner keyScan;
 
@@ -12,39 +12,45 @@ public class TextBookController {
     this.keyScan = keyScan;
   }
   public void doAdd() {
-    TextBook textbook = new TextBook();
+    while (length < this.textBooks.length) {
+      TextBook textbook = new TextBook();
 
-    System.out.print("책이름(ex: java's best practice)? ");
-    textbook.title = this.keyScan.nextLine();
+      System.out.print("책이름(ex: java's best practice)? ");
+      textbook.title = this.keyScan.nextLine();
 
-    System.out.print("저자(ex: mr.Nam)? ");
-    textbook.author = this.keyScan.nextLine();
+      System.out.print("저자(ex: mr.Nam)? ");
+      textbook.author = this.keyScan.nextLine();
 
-    System.out.print("출판사(ex: Dow)? ");
-    textbook.press = this.keyScan.nextLine();
+      System.out.print("출판사(ex: Dow)? ");
+      textbook.press = this.keyScan.nextLine();
 
-    System.out.print("출판년도(ex: 2016)? ");
-    textbook.releaseDate = this.keyScan.nextLine();
+      System.out.print("출판년도(ex: 2016)? ");
+      textbook.releaseDate = this.keyScan.nextLine();
 
-    System.out.print("언어(ex: Korean)? ");
-    textbook.language = this.keyScan.nextLine();
+      System.out.print("언어(ex: Korean)? ");
+      textbook.language = this.keyScan.nextLine();
 
-    System.out.print("설명(ex: Do you want to feel java from basic to OOP? ");
-    textbook.description = this.keyScan.nextLine();
+      System.out.print("설명(ex: Do you want to feel java from basic to OOP? ");
+      textbook.description = this.keyScan.nextLine();
 
-    System.out.print("쪽수(ex: 520)? ");
-    textbook.page = Integer.parseInt(this.keyScan.nextLine());
+      System.out.print("쪽수(ex: 520)? ");
+      textbook.page = Integer.parseInt(this.keyScan.nextLine());
 
-    System.out.print("가격(ex: 30000)? ");
-    textbook.price = Integer.parseInt(this.keyScan.nextLine());
+      System.out.print("가격(ex: 30000)? ");
+      textbook.price = Integer.parseInt(this.keyScan.nextLine());
 
-    textbooks[length++] = textbook;
-    System.out.println();
+      this.textBooks[length++] = textbook;
+
+      System.out.print("계속 입력하시겠습니까(y/n)? ");
+      if (!this.keyScan.nextLine().equals("y"))
+        break;
+      System.out.println();
+    }
   }
 
   public void doList() {
     for (int i = 0; i < this.length; i++) {
-      TextBook textbook = this.textbooks[i];
+      TextBook textbook = this.textBooks[i];
       System.out.printf("%s,%s,%s,%s,%s,%s,%d,%d\n",
         textbook.title,
         textbook.author,
@@ -59,22 +65,96 @@ public class TextBookController {
   }
   public void doView() {
     System.out.println("책이름을 입력하세요");
-    String input = keyScan.nextLine().toLowerCase();
+    String userTitle = this.keyScan.nextLine().toLowerCase();
+
     for(int i = 0; i <this.length;  i++) {
 
-      if(textbooks[i].title.toLowerCase().equals(input)) {
+      if(this.textBooks[i].title.toLowerCase().equals(userTitle)) {
         System.out.println("-----------------------------------");
-        System.out.printf("text: %s\n",this.textbooks[i].title);
-        System.out.printf("author: %s\n",this.textbooks[i].author);
-        System.out.printf("press: %s\n",this.textbooks[i].press);
-        System.out.printf("releaseDate: %s\n",this.textbooks[i].releaseDate);
-        System.out.printf("language: %s\n",this.textbooks[i].language);
-        System.out.printf("description: %s\n",this.textbooks[i].description);
-        System.out.printf("page: %d\n",this.textbooks[i].page);
-        System.out.printf("price: %d\n",this.textbooks[i].price);
+        System.out.printf("책이름: %s\n",this.textBooks[i].title);
+        System.out.printf("저자: %s\n",this.textBooks[i].author);
+        System.out.printf("출판사: %s\n",this.textBooks[i].press);
+        System.out.printf("출판년도: %s\n",this.textBooks[i].releaseDate);
+        System.out.printf("언어: %s\n",this.textBooks[i].language);
+        System.out.printf("설명: %s\n",this.textBooks[i].description);
+        System.out.printf("쪽수: %d\n",this.textBooks[i].page);
+        System.out.printf("가격: %d\n",this.textBooks[i].price);
         System.out.println();
         break;
       }
     }
   }
+  public void doDelete() {
+    System.out.println("삭제할 리스트의 책이름은? ");
+    String userTitle = this.keyScan.nextLine().toLowerCase();
+
+    for(int i = 0; i < this.length;  i++) {
+      if(this.textBooks[i].title.toLowerCase().equals(userTitle)) {
+        System.out.print("진짜 삭제하시겠습니까?(y/n) ");
+        if(!keyScan.nextLine().toLowerCase().equals("y")) {
+          System.out.println("삭제를 취소하였습니다.");
+          return;}
+      //배열의 앞 항목의 값을 현재 항목으로 당겨온다.
+        for(int x = i + 1; x < this.length; x++, i++) {
+          this.textBooks[i] = this.textBooks[x];
+        }
+        this.textBooks[--length] = null;
+
+        System.out.printf("%s 책 정보를 삭제하였습니다.\n", userTitle);
+        return;  //함수 실행 종료
+      }
+    }
+    System.out.printf("%s 책이 없습니다.\n", userTitle);
+  }
+
+  public void doUpdate() {
+    System.out.print("변경할 책의 이름은? ");
+    String userTitle = this.keyScan.nextLine().toLowerCase();
+    TextBook textbook = new TextBook();
+
+    for(int i = 0; i < this.length; i++) {
+
+      if(this.textBooks[i].title.toLowerCase().equals(userTitle)) {
+        textbook.title = textBooks[i].title;
+
+        System.out.print("저자(ex: mr.Nam)? ");
+        textbook.author = this.keyScan.nextLine();
+
+        System.out.print("출판사(ex: Dow)? ");
+        textbook.press = this.keyScan.nextLine();
+
+        System.out.print("출판년도(ex: 2016)? ");
+        textbook.releaseDate = this.keyScan.nextLine();
+
+        System.out.print("언어(ex: Korean)? ");
+        textbook.language = this.keyScan.nextLine();
+
+        System.out.print("설명(ex: Do you want to feel java from basic to OOP? ");
+        textbook.description = this.keyScan.nextLine();
+
+        System.out.print("쪽수(ex: 520)? ");
+        textbook.page = Integer.parseInt(this.keyScan.nextLine());
+
+        System.out.print("가격(ex: 30000)? ");
+        textbook.price = Integer.parseInt(this.keyScan.nextLine());
+
+        System.out.print("저장하시겠습니까(y/n)?");
+        if(keyScan.nextLine().toLowerCase().equals("y")) {
+          textBooks[i] = textbook;
+          System.out.println("저장하였습니다.");
+        }else{
+          System.out.println("변경을 취소하였습니다.");
+        }
+        return;
+      } //if end
+    }  //for end
+    System.out.printf("%s 이라는 책이 없습니다.\n", userTitle);
+
+  }
+
+
+
+
+
+
 }
