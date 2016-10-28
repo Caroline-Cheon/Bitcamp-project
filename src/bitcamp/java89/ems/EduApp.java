@@ -5,8 +5,7 @@ public class EduApp {
   static Scanner keyScan = new Scanner(System.in);
 
   public static void main(String[] args) {
-    //EduApp에서 사용하는 keyScan을 TextBookController와 공유!
-    TextBookController.keyScan = keyScan;
+    TextBookController textBookController = new TextBookController(keyScan);
 
     System.out.println("비트캠프 관리시스템에 오신 걸 환영합니다.");
     loop:
@@ -16,9 +15,9 @@ public class EduApp {
       String command = keyScan.nextLine().toLowerCase();
 
       switch (command) {
-        case "add": TextBookController.doAdd(); break;
-        case "list": TextBookController.doList(); break;
-        case "view": TextBookController.doView(); break;
+        case "add": textBookController.doAdd(); break;
+        case "list": textBookController.doList(); break;
+        case "view": textBookController.doView(); break;
         case "quit": System.out.println("굿바이"); break loop;
         default :
           System.out.println("지원하지 않는 명령입니다.");
