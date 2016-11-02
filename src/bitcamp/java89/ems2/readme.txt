@@ -1,3 +1,18 @@
+[v0.9]
+구현할 기능:
+=> linked list를 TextBookController에 적용한다.
+
+산출물:
+=> TextBook.java
+=> EduApp.java
+=> TextBookController.java(변경)
+=> Box.java (삭제)
+=> LinkedList.java (추가)
+
+학습목표:
+=> LinkedList를를 만들 수 있다
+=> LinkedList를 사용하여 
+
 
 [v0.8]
 구현할 기능:
