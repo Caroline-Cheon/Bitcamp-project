@@ -1,14 +1,19 @@
-package bitcamp.java89.ems7;
+//버전 1.5
+package bitcamp.java89.ems9;
 
 import java.util.Scanner;
 
 public class EduApp {
   static Scanner keyScan = new Scanner(System.in);
   static TextBookController textBookController;
+  static ContactController contactController;
+  static ContactController2 contactController2;
   // 스태틱 멤버로 지정하여 다른 메서드가 참조할 수 있도록 한다.
 
   public static void main(String[] args) throws Exception {
     textBookController = new TextBookController(keyScan);
+    contactController = new ContactController(keyScan);
+    contactController2 = new ContactController2(keyScan);
 
     System.out.println("비트캠프 관리시스템에 오신 걸 환영합니다.");
     loop:
@@ -19,6 +24,8 @@ public class EduApp {
       switch (command) {
         case "menu": doMenu(); break;
         case "go 1": textBookController.service(); break;
+        case "go 5": contactController.service(); break;
+        case "go 6": contactController2.service(); break;
         case "save": doSave(); break;
         case "quit": 
           if (doQuit())
@@ -33,7 +40,12 @@ public class EduApp {
   static void doMenu() {
     System.out.println("[메뉴]");
     System.out.println("1. 교재관리 ");
+    System.out.println("5. 연락처관리 ");
+    System.out.println("6. 연락처관리2");
     System.out.println("메뉴 이동은 'go 메뉴번호'를 입력하세요. ");
+    System.out.println("[명령]");
+    System.out.println("save   데이터 저장");
+    System.out.println("quit   프로그램 종료");
   }
   static boolean doQuit() {
     boolean changed = textBookController.isChanged();

@@ -1,4 +1,4 @@
-package bitcamp.java89.ems;
+package bitcamp.java89.ems5;
 
 public class LinkedList<T> {
   Box<T> head;

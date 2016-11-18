@@ -1,8 +1,6 @@
 package bitcamp.java89.ems7;
 
-import java.io.Serializable;
-
-public class TextBook implements Serializable {
+public class TextBook {
   //인스턴스 변수
   String title;
   String author;

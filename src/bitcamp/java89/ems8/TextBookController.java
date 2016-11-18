@@ -1,20 +1,15 @@
-/* 작업내용: 저장 기능 추가
-- changed 변수 추가
-- isChanged() 추가
-- save() 추가 
-*/
-package bitcamp.java89.ems7;
+package bitcamp.java89.ems8;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.EOFException;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class TextBookController {
-  private String filename = "textbook.data";
+  private String filename = "textbook2.data";
   private ArrayList<TextBook> booklist;
   private boolean changed;
   private Scanner keyScan;  
@@ -29,27 +24,17 @@ public class TextBookController {
   public boolean isChanged() {
     return changed;
   }
+  @SuppressWarnings("unchecked")
   private void load() {
     FileInputStream in0 = null;
-    DataInputStream in = null;
+    ObjectInputStream in = null;
 
     try {
       in0 = new FileInputStream(this.filename);
-      in = new DataInputStream(in0);
+      in = new ObjectInputStream(in0);
 
-      while (true) {
-        TextBook textbook = new TextBook(); // 빈 객체 생성
-
-        textbook.title = in.readUTF();    // 데이터 저장
-        textbook.author = in.readUTF();
-        textbook.press = in.readUTF();
-        textbook.releaseDate = in.readInt();
-        textbook.language = in.readUTF();
-        textbook.description = in.readUTF();
-        textbook.page = in.readInt();
-        textbook.price = in.readInt();
-        this.booklist.add(textbook);    // 목록에 책 객체 저장
-      }
+      booklist = (ArrayList<TextBook>)in.readObject();
+      
     } catch (EOFException e) {
       //파일을 모두 읽었다.
     } catch (Exception e) {
@@ -66,18 +51,9 @@ public class TextBookController {
 
   public void save() throws Exception {
     FileOutputStream out0 = new FileOutputStream(this.filename);
-    DataOutputStream out = new DataOutputStream(out0);
+    ObjectOutputStream out = new ObjectOutputStream(out0);
 
-    for (TextBook textbook : this.booklist) {
-      out.writeUTF(textbook.title);
-      out.writeUTF(textbook.author);
-      out.writeUTF(textbook.press);
-      out.writeInt(textbook.releaseDate);
-      out.writeUTF(textbook.language);
-      out.writeUTF(textbook.description);
-      out.writeInt(textbook.page);
-      out.writeInt(textbook.price);
-    }
+    out.writeObject(booklist);
     changed = false;
 
     out.close();

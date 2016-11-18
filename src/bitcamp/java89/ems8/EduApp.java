@@ -1,5 +1,5 @@
-package bitcamp.java89.ems7;
-
+package bitcamp.java89.ems8;
+//버전 1.4
 import java.util.Scanner;
 
 public class EduApp {
