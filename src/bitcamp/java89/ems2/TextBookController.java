@@ -5,7 +5,7 @@ import java.util.Scanner;
 public class TextBookController {
   private LinkedList list;
   private Scanner keyScan;
-
+  
   public TextBookController(Scanner keyScan){
     list = new LinkedList();
     this.keyScan = keyScan;

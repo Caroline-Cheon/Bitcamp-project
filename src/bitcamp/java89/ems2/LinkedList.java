@@ -8,7 +8,7 @@ public class LinkedList {
   public LinkedList() {
     head = new Box();
     tail = head;
-   }
+   } 
   public void add(Object value) {
     tail.value = value;
     tail.next = new Box();
