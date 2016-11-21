@@ -194,16 +194,16 @@ public class ContactController {
   private void doDelete(String params) {
     String[] kv = params.split("=");
 
+    if (!existEmail(kv[1])) {
+      out.println("해당 이메일이 존재하지 않습니다. 삭제를 취소합니다.");
+      return;
+    }
     loop:
     for (Contact contact : list) {
       if (contact.getEmail().equals(kv[1])) {
         list.remove(contact);
         break loop;
       }
-    }
-    if (!existEmail(kv[1])) {
-      out.println("해당 이메일이 존재하지 않습니다. 삭제를 취소합니다.");
-      return;
     }
     changed = true;
     out.println("삭제하였습니다.");
