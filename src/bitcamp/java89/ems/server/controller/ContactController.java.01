@@ -1,4 +1,4 @@
-package bitcamp.java89.ems10.server.controller;
+package bitcamp.java89.ems11.server.controller;
 
 import java.io.EOFException;
 import java.io.FileInputStream;
@@ -67,8 +67,8 @@ public class ContactController {
     out0.close();
   }
 
-  public void service() {
-    loop:
+  public boolean service() {
+    
     while(true) {
       // 클라이언트로 데이터 출력
       out.println("연락처관리> ");
@@ -84,8 +84,8 @@ public class ContactController {
         case "view": this.doView(commands[1]); break;
         case "delete": this.doDelete(commands[1]); break;
         case "update": this.doUpdate(commands[1]); break;
-        case "main":
-          break loop;
+        case "main": return true;
+        case "quit": return false;
         default :
           out.println("지원하지 않는 명령입니다.");
         }
@@ -124,16 +124,13 @@ public class ContactController {
          contact.setName(paramMap.get("name"));
          contact.setPosition(paramMap.get("position"));
          contact.setTel(paramMap.get("tel"));
+         changed = true;
+         out.println("업데이트 완료하였습니다.");
+         return;
       }
     }
-    if (!existEmail(paramMap.get("email"))) {
-      out.println("해당 이메일이 존재하지 않습니다. 업데이트를 취소합니다.");
-      return;
-    }
-    changed = true;
-    out.println("등록하였습니다.");
+    out.println("해당 이메일이 존재하지 않습니다. 업데이트를 취소합니다.");
   }
-  
   //클라이언트에서 보낸 데이터 형식
   // => add?name=홍길동&position=대리&tel=111-1111&email=hong@test.com
   // => doAdd("name=홍길동&position=대리&tel=111-1111&email=hong@test.com") 
