@@ -1,4 +1,4 @@
-package bitcamp.java89.ems.server.vo;
+package bitcamp.java89.ems.server.vo; 
 
 import java.io.Serializable;
 

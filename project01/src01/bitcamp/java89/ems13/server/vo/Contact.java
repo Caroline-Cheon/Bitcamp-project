@@ -1,5 +1,5 @@
 package bitcamp.java89.ems.server.vo;
-
+ 
 import java.io.Serializable;
 
 public class Contact implements Serializable{
