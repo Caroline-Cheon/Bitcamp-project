@@ -15,7 +15,7 @@ public class EduAppServer {
     // bin 폴더를 뒤져서 AbstractCommand의 서브 클래스를 찾아낸다.
     ArrayList<Class> classList = new ArrayList<>();
     ReflectionUtil.getCommandClasses(new File("./bin"), classList);
-    
+    // classList = {bitcamp.java89.ems.server.controller.ContactUpdateController, .....}
     for (Class c : classList) {
       try {
         // 클라이언트 요청을 처리할 Command 객체 등록
