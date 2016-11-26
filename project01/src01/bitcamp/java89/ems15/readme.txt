@@ -3,7 +3,7 @@
 리플랙션 API를 활용하여 객체 생성 자동화하기
 -ReflectionUtil.java(추가)
   - AbstractCommand의 서브 클래스를 찾아 그 클래스 목록을 리턴한다.
--ReflectionCommand.java (변경)
+-AbstractCommand.java (변경)
   - 명령어를 리턴하는 겟터 메서드 추가. getCommandString()
 -XxxController.java (변경)
   - 추상 메서드 getCommandString()을 구현
