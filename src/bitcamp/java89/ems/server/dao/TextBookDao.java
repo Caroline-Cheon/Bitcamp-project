@@ -5,18 +5,7 @@ import java.util.ArrayList;
 import bitcamp.java89.ems.server.vo.TextBook;
 
 public class TextBookDao extends AbstractDao<TextBook>{
-  static TextBookDao obj;
   
-  public static TextBookDao getInstance() throws Exception {
-    if (obj == null) {
-      obj = new TextBookDao();
-      obj.load();
-    }
-    return obj;
-  }
-  private TextBookDao() throws Exception {
-    super("textbook-v1.9.data");
-  } 
   public ArrayList<TextBook> getList(){
     return this.list;
   }

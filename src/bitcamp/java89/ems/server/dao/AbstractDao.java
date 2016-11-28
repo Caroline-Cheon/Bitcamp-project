@@ -6,19 +6,19 @@ import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-// 추상 메서드가 없어도 추상 클래스가 될 수 있다.
+
 public abstract class AbstractDao<T> {
 
   private String filename;
   protected ArrayList<T> list;
 
-  public AbstractDao(String filename) {
-    //super();
+  // 파일명을 객체 생성후 주입받는다.
+  public void setFilename(String filename) {
     this.filename = filename;
   }
 
   @SuppressWarnings("unchecked")
-  protected void load() throws Exception {
+  public void load() throws Exception {
     try (
       ObjectInputStream in = new ObjectInputStream(new FileInputStream(this.filename));){
   

@@ -1,19 +1,22 @@
-# v2.2
+# v2.3
 ####구현할 기능 및 산출물:
-리플랙션 API를 활용하여 객체 생성 자동화하기
--ReflectionUtil.java(추가)
-  - AbstractCommand의 서브 클래스를 찾아 그 클래스 목록을 리턴한다.
--ReflectionCommand.java (변경)
-  - 명령어를 리턴하는 겟터 메서드 추가. getCommandString()
--XxxController.java (변경)
-  - 추상 메서드 getCommandString()을 구현
--EduAppServer.java(변경)
-  - ReflectionUtil 클래스를 사용하여 커맨드 객체 생성 자동화
+의존 객체 주입(Dependency Injection) 적용
+- DAO 클래스에 적용된 Singleton 패턴을 제거한다.
+    - AbstractDao.java(변경)
+        - 파일명 주입받기: setFilename() 추가
+        - 파일명 입력 받는 생성자 제거
+    - ContactDao.java(변경)
+      - 생성자 제거
+      - Singleton 관련 스태틱 변수와 스태틱 메서드 제거
+    - textbookDao.java(변경)
+      - 생성자 제거
+      - Singleton 관련 스태틱 변수와 스태틱 메서드 제거
+- Controller 클래스에 DAO를 주입할 수 있도록 인스턴스 변수와 셋터를 추가한다.
+  - contactXxxController.java에 ContactDao 객체를 저장할 변수와 셋터 추가
+  - contactXxxController.java에 TextBookDao 객체를 저장할 변수와 셋터 추가
+- EduAppServer에서 DAO를 만들어 Controller에 주입한다.
+  - EduAppServer.java(변경)
 
 ####학습목표:
-- Reflection API의 용도를 이해한다.
-- 객체 생성을 자동화하는 방법을 이해한다.
-- 추상 메서드(getCommandString())의 용도를 이해한다.
-
-
-
+- 의존 객체 주입을 이해한다.
+- 리플랙션 API를 사용하여 셋터 메서드를 찾아서 의존 객체 주입을 자동화할 수 있다.
