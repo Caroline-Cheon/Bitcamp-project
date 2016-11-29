@@ -6,9 +6,9 @@ import bitcamp.java89.ems.server.vo.Contact;
 
 public class ContactDao extends AbstractDao<Contact> {
   
-  public ContactDao() throws Exception {     //prepateObject()에서 예외 받아줌
+  public ContactDao() {     //prepateObject()에서 예외 받아줌
     this.setFilename("contact-v1.9.data");
-    this.load();
+    try {this.load();} catch(Exception e) {}
   }
   
   public ArrayList<Contact> getList() {
