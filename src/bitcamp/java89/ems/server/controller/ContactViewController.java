@@ -4,13 +4,13 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import bitcamp.java89.ems.server.AbstractCommand;
 import bitcamp.java89.ems.server.annotation.Component;
+import bitcamp.java89.ems.server.annotation.RequestMapping;
 import bitcamp.java89.ems.server.dao.ContactDao;
 import bitcamp.java89.ems.server.vo.Contact;
 
 @Component(value="contact/view")
-public class ContactViewController extends AbstractCommand {
+public class ContactViewController {
   //의존 객체 DAO를 저장할 변수 선언
   ContactDao contactDao;
   
@@ -19,8 +19,8 @@ public class ContactViewController extends AbstractCommand {
     this.contactDao = contactDao;
   }
 
-  @Override
-  protected void doResponse(HashMap<String, String> paramMap, PrintStream out) throws Exception {
+  @RequestMapping
+  public void view(HashMap<String, String> paramMap, PrintStream out) throws Exception {
     // 주입 받은 contactDao를 사용할 것이기 때문에 더이상 이 메서드에서 ContactDao객체를 준비하지 않는다.
     // => 단 이 메서드가 호출되기 전에 반드시 ContactDao가 주입되어 있어야한다.
       ArrayList<Contact> list = contactDao.getListByName(paramMap.get("name"));
