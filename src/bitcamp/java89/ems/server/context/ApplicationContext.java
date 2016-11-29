@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 
+import bitcamp.java89.ems.server.annotation.Component;
+
 public class ApplicationContext {
   HashMap<String, Object> objPool = new HashMap<>();
 
@@ -86,14 +88,19 @@ public class ApplicationContext {
     for (Class<?> clazz : classList) {
       try {
         Object obj = clazz.newInstance();
-        String key = null;
-        try {
-          Method m = clazz.getMethod("getCommandString");
-          key = (String)m.invoke(obj);
-        } catch (Exception e) {
-          key = clazz.getName(); // controller가 아니면 클래스 이름 자체를 key로 사용
+        
+        // 클래스에 태깅된 Component 애노테이션 정보를 꺼낸다.
+        Component compAnno = clazz.getAnnotation(Component.class);
+        // 애노테이션의 값을 저장할 때는 변수처럼, 값을 꺼낼 때는 메서드처럼 사용한다.
+        if (compAnno.value().length() == 0) { // 빈 문자열이면,
+          objPool.put(clazz.getName(), obj); // 클래스 이름으로 객체를 저장하고,
+          //System.out.println(clazz.getName());
+        } else {
+          objPool.put(compAnno.value(), obj); // 애노테이션에 기록한 이름으로 객체를 저장한다.
+          //System.out.println(compAnno.value()); 
+          //bitcamp.java89.ems.server.dao.ContactDao
+          //bitcamp.java89.ems.server.dao.TextBookDao
         }
-        objPool.put(key, obj);
       } catch (Exception e) {
         e.printStackTrace();
       }
@@ -129,7 +136,7 @@ public class ApplicationContext {
       } else {
         try {
           Class<?> c = loadClass(file);  // class 이름만 추출해서 리턴해준다.
-          if (!isAbstract(c)) {         // 추상클래스인지 확인하는 조건문을 메서드로 추출하였다.
+          if (!isAbstract(c) && isComponent(c)) {         // 추상클래스인지 확인하는 조건문을 메서드로 추출하였다.
             classList.add(c);
           }
         } catch (Exception e) {
@@ -138,6 +145,11 @@ public class ApplicationContext {
       }
     }
   }
+  private boolean isComponent(Class<?> c) {
+    // @Component 애노테이션이 있다면 리턴값은 null이 아니다.
+    return c.getAnnotation(Component.class) != null;
+  }
+
   private Class<?> loadClass(File file) throws IOException, ClassNotFoundException {
     String path = file.getCanonicalPath().replaceAll("\\\\", "/").replaceAll(".class", ""); 
     // "패키지명 + 클래스명"만 추출
@@ -158,4 +170,5 @@ public class ApplicationContext {
         "bitcamp.java89.ems.server.dao"});
   }
   */
+  
 }

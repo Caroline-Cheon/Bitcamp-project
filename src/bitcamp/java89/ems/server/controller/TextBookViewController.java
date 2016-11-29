@@ -5,10 +5,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import bitcamp.java89.ems.server.AbstractCommand;
-import bitcamp.java89.ems.server.Command;
+import bitcamp.java89.ems.server.annotation.Component;
 import bitcamp.java89.ems.server.dao.TextBookDao;
 import bitcamp.java89.ems.server.vo.TextBook;
 
+@Component(value="textbook/view")
 public class TextBookViewController extends AbstractCommand {
   //의존 객체 DAO를 저장할 변수 선언
   TextBookDao textbookDao;
@@ -17,10 +18,7 @@ public class TextBookViewController extends AbstractCommand {
   public void setTextbookDao(TextBookDao textbookDao) {
     this.textbookDao = textbookDao;
   }
-  @Override
-  public String getCommandString() {
-    return "textbook/view";
-  }
+  
   @Override
   protected void doResponse(HashMap<String, String> paramMap, PrintStream out) throws Exception {
     // 주입 받은 contactDao를 사용할 것이기 때문에 더이상 이 메서드에서 ContactDao객체를 준비하지 않는다.

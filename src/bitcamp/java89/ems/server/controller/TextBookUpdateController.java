@@ -4,9 +4,11 @@ import java.io.PrintStream;
 import java.util.HashMap;
 
 import bitcamp.java89.ems.server.AbstractCommand;
+import bitcamp.java89.ems.server.annotation.Component;
 import bitcamp.java89.ems.server.dao.TextBookDao;
 import bitcamp.java89.ems.server.vo.TextBook;
 
+@Component(value="textbook/update")
 public class TextBookUpdateController extends AbstractCommand {
   //의존 객체 DAO를 저장할 변수 선언
   TextBookDao textbookDao;
@@ -14,10 +16,6 @@ public class TextBookUpdateController extends AbstractCommand {
   //의존 객체 주입할 때 호출할 셋터 추가
   public void setTextbookDao(TextBookDao textbookDao) {
     this.textbookDao = textbookDao;
-  }
-  @Override
-  public String getCommandString() {
-    return "textbook/update";
   }
   @Override
   protected void doResponse(HashMap<String, String> paramMap, PrintStream out) throws Exception {

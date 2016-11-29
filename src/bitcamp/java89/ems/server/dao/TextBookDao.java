@@ -2,9 +2,11 @@ package bitcamp.java89.ems.server.dao;
 
 import java.util.ArrayList;
 
+import bitcamp.java89.ems.server.annotation.Component;
 import bitcamp.java89.ems.server.vo.TextBook;
 
-public class TextBookDao extends AbstractDao<TextBook>{
+@Component // ApplicationContext가 객체를 관리하는 클래스임을 표시하기 위해 태그를 단다.
+public class TextBookDao extends AbstractDao<TextBook> {
   
   public TextBookDao() {     //prepateObject()에서 예외 받아줌
     this.setFilename("textbook-v1.9.data");
