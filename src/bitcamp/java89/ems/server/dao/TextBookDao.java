@@ -6,6 +6,11 @@ import bitcamp.java89.ems.server.vo.TextBook;
 
 public class TextBookDao extends AbstractDao<TextBook>{
   
+  public TextBookDao() throws Exception {     //prepateObject()에서 예외 받아줌
+    this.setFilename("textbook-v1.9.data");
+    this.load();
+  }
+  
   public ArrayList<TextBook> getList(){
     return this.list;
   }
