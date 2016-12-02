@@ -2,6 +2,8 @@ package bitcamp.java89.ems.server.dao.impl;
 
 import java.util.ArrayList;
 
+import org.springframework.stereotype.Component;
+
 import bitcamp.java89.ems.server.dao.TextBookDao;
 import bitcamp.java89.ems.server.vo.TextBook;
 

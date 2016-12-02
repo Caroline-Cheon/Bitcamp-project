@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.util.ArrayList;
 
-import bitcamp.java89.ems.server.annotation.Component;
+import org.springframework.stereotype.Component;
 // 커넥션을 관리하는 datasource를 만든다.
 @Component
 public class DataSource {
