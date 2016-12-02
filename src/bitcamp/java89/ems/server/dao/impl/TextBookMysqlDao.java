@@ -7,18 +7,19 @@ import java.util.ArrayList;
 
 import bitcamp.java89.ems.server.annotation.Component;
 import bitcamp.java89.ems.server.dao.TextBookDao;
+import bitcamp.java89.ems.server.util.DataSource;
 import bitcamp.java89.ems.server.vo.TextBook;
 
 @Component // ApplicationContext가 객체를 관리하는 클래스임을 표시하기 위해 태그를 단다.
 public class TextBookMysqlDao implements TextBookDao {
-  Connection con;
+  DataSource ds;
   
-  // Connection 객체를 외부에서 주입 받는다.
-  public void setCon(Connection con) {
-    this.con = con;
+  public void setDataSource(DataSource dataSource) {
+    this.ds = dataSource;
   }
   
   public ArrayList<TextBook> getList() throws Exception {
+    Connection con = ds.getConnection();
     ArrayList<TextBook> list = new ArrayList<>();
     try (
       PreparedStatement stmt = con.prepareStatement(
@@ -38,10 +39,13 @@ public class TextBookMysqlDao implements TextBookDao {
         
         list.add(textbook);
       }
+    } finally {
+      ds.returnConnection(con);
     }
     return list;
   }
   public ArrayList<TextBook> getListByTitle(String title) throws Exception {
+    Connection con = ds.getConnection();
     ArrayList<TextBook> list = new ArrayList<>();
     try (
       PreparedStatement stmt = con.prepareStatement(
@@ -64,11 +68,14 @@ public class TextBookMysqlDao implements TextBookDao {
         list.add(textbook);
       }
       rs.close();
+    } finally {
+      ds.returnConnection(con);
     }
     return list;
   }
   
   public void insert(TextBook textbook) throws Exception {
+    Connection con = ds.getConnection();
     try (
       PreparedStatement stmt = con.prepareStatement(
           "insert into ex_textbooks(title, author, press, releaseDate, language, description, page, price)"
@@ -84,9 +91,12 @@ public class TextBookMysqlDao implements TextBookDao {
       stmt.setInt(8, textbook.getPrice());
      
       stmt.executeUpdate();
+    } finally {
+      ds.returnConnection(con);
     }
   }
   public void update(TextBook textbook) throws Exception {
+    Connection con = ds.getConnection();
     try (
       PreparedStatement stmt = con.prepareStatement(
           "update ex_textbooks set title=?, author=?, press=? , releaseDate=?, language=?, description=?, page=?, price=? where title=?"); ) {
@@ -101,10 +111,13 @@ public class TextBookMysqlDao implements TextBookDao {
       stmt.setInt(8, textbook.getPrice());
       
       stmt.executeUpdate();
+    } finally {
+      ds.returnConnection(con);
     } 
   }
   
   public void delete(String title) throws Exception {
+    Connection con = ds.getConnection();
     try (
       PreparedStatement stmt = con.prepareStatement(
           "delete from ex_textbooks where title=?"); ) {
@@ -112,10 +125,13 @@ public class TextBookMysqlDao implements TextBookDao {
       stmt.setString(1, title);
       
       stmt.executeUpdate();
+    } finally {
+      ds.returnConnection(con);
     } 
   }
   
   public boolean existTitle(String title) throws Exception {
+    Connection con = ds.getConnection();
     try (
       PreparedStatement stmt = con.prepareStatement(
           "select * from ex_textbooks where title=?"); ) {
@@ -130,6 +146,8 @@ public class TextBookMysqlDao implements TextBookDao {
         rs.close();
         return false;
       }
+    } finally {
+      ds.returnConnection(con);
     }
   }
 }
