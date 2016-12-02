@@ -99,10 +99,10 @@ public class ApplicationContext {
         // 애노테이션의 값을 저장할 때는 변수처럼, 값을 꺼낼 때는 메서드처럼 사용한다.
         if (compAnno.value().length() == 0) { // 빈 문자열이면,
           objPool.put(clazz.getName(), obj); // 클래스 이름으로 객체를 저장하고,
-          //System.out.println(clazz.getName());
+          System.out.println(clazz.getName());
         } else {
           objPool.put(compAnno.value(), obj); // 애노테이션에 기록한 이름으로 객체를 저장한다.
-          //System.out.println(compAnno.value()); 
+          System.out.println(compAnno.value()); 
           //bitcamp.java89.ems.server.dao.ContactDao
           //bitcamp.java89.ems.server.dao.TextBookDao
         }
