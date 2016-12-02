@@ -12,16 +12,20 @@ import bitcamp.java89.ems.server.vo.TextBook;
 
 @Component // ApplicationContext가 객체를 관리하는 클래스임을 표시하기 위해 태그를 단다.
 public class TextBookMysqlDao implements TextBookDao {
+  Connection con;
   
   public TextBookMysqlDao() {
+    try {
+      Class.forName("com.mysql.jdbc.Driver");
+      con = DriverManager.getConnection("jdbc:mysql://localhost:3306/java89db", "java89", "1111");
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
   }
   
   public ArrayList<TextBook> getList() throws Exception {
     ArrayList<TextBook> list = new ArrayList<>();
-    Class.forName("com.mysql.jdbc.Driver");
     try (
-      Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/java89db", 
-          "java89", "1111");
       PreparedStatement stmt = con.prepareStatement(
           "select title, author, press, releaseDate, language, description, page, price from ex_textbooks");
       ResultSet rs = stmt.executeQuery(); ){
@@ -44,10 +48,7 @@ public class TextBookMysqlDao implements TextBookDao {
   }
   public ArrayList<TextBook> getListByTitle(String title) throws Exception {
     ArrayList<TextBook> list = new ArrayList<>();
-    Class.forName("com.mysql.jdbc.Driver");
     try (
-      Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/java89db", 
-          "java89", "1111");
       PreparedStatement stmt = con.prepareStatement(
           "select title, author, press, releaseDate, language, description, page, price from ex_textbooks where title=?"); ){
       
@@ -73,10 +74,7 @@ public class TextBookMysqlDao implements TextBookDao {
   }
   
   public void insert(TextBook textbook) throws Exception {
-    Class.forName("com.mysql.jdbc.Driver");
     try (
-      Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/java89db", 
-          "java89", "1111");
       PreparedStatement stmt = con.prepareStatement(
           "insert into ex_textbooks(title, author, press, releaseDate, language, description, page, price)"
           + "values(?, ?, ?, ?, ?, ?, ?, ?)"); ){
@@ -94,10 +92,7 @@ public class TextBookMysqlDao implements TextBookDao {
     }
   }
   public void update(TextBook textbook) throws Exception {
-    Class.forName("com.mysql.jdbc.Driver");
     try (
-      Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/java89db", 
-          "java89", "1111");
       PreparedStatement stmt = con.prepareStatement(
           "update ex_textbooks set title=?, author=?, press=? , releaseDate=?, language=?, description=?, page=?, price=? where title=?"); ) {
       
@@ -115,10 +110,7 @@ public class TextBookMysqlDao implements TextBookDao {
   }
   
   public void delete(String title) throws Exception {
-    Class.forName("com.mysql.jdbc.Driver");
     try (
-      Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/java89db", 
-          "java89", "1111");
       PreparedStatement stmt = con.prepareStatement(
           "delete from ex_textbooks where title=?"); ) {
       
@@ -129,10 +121,7 @@ public class TextBookMysqlDao implements TextBookDao {
   }
   
   public boolean existTitle(String title) throws Exception {
-    Class.forName("com.mysql.jdbc.Driver");
     try (
-      Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/java89db", 
-          "java89", "1111");
       PreparedStatement stmt = con.prepareStatement(
           "select * from ex_textbooks where title=?"); ) {
       
